@@ -1,1 +1,4 @@
 # AUXILIATURA-INF-121
+# Oscar Juan Garcia Suxo
+# CI: 14005708
+# 1885999
