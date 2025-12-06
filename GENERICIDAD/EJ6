@@ -1,0 +1,104 @@
+public class Diccionario2<K, V> {
+    private Par<K, V>[] elementos;
+    private int cantidad;
+    
+    public Diccionario2() {
+        elementos = new Par[10];
+        cantidad = 0;
+    }
+    
+    public void agregar(K clave, V valor) {
+        for (int i = 0; i < cantidad; i++) {
+            if (elementos[i].getPrimero().equals(clave)) {
+                elementos[i].setSegundo(valor);
+                System.out.println("Valor editado para clave: " + clave);
+                return;
+            }
+        }
+        
+        if (cantidad >= elementos.length) {
+            Par<K, V>[] nuevo = new Par[elementos.length * 2];
+            for (int i = 0; i < cantidad; i++) {
+                nuevo[i] = elementos[i];
+            }
+            elementos = nuevo;
+        }
+        
+        elementos[cantidad] = new Par<>(clave, valor);
+        cantidad++;
+        System.out.println("Agregado: " + clave + " -> " + valor);
+    }
+    
+    public void eliminar(K clave) {
+        for (int i = 0; i < cantidad; i++) {
+            if (elementos[i].getPrimero().equals(clave)) {
+                for (int j = i; j < cantidad - 1; j++) {
+                    elementos[j] = elementos[j + 1];
+                }
+                elementos[cantidad - 1] = null;
+                cantidad--;
+                System.out.println("Eliminado: " + clave);
+                return;
+            }
+        }
+        System.out.println("No se encontró la clave: " + clave);
+    }
+    
+    public void editar(K clave, V nuevoValor) {
+        for (int i = 0; i < cantidad; i++) {
+            if (elementos[i].getPrimero().equals(clave)) {
+                elementos[i].setSegundo(nuevoValor);
+                System.out.println("Editado: " + clave + " -> " + nuevoValor);
+                return;
+            }
+        }
+        System.out.println("Clave no encontrada para editar: " + clave);
+    }
+    
+    public void mostrar() {
+        System.out.println("\n--- DICCIONARIO ---");
+        if (cantidad == 0) {
+            System.out.println("Diccionario vacío");
+        } else {
+            for (int i = 0; i < cantidad; i++) {
+                System.out.println(elementos[i].getPrimero() + " : " + elementos[i].getSegundo());
+            }
+        }
+        System.out.println("Total: " + cantidad + " elementos\n");
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("=== PRUEBA CON STRING-INTEGER ===");
+        Diccionario2<String, Integer> dic1 = new Diccionario2<>();
+        
+        dic1.agregar("Juan", 25);
+        dic1.agregar("Ana", 30);
+        dic1.agregar("Pedro", 22);
+        dic1.mostrar();
+        
+        dic1.editar("Ana", 31);
+        dic1.eliminar("Pedro");
+        dic1.mostrar();
+        
+        System.out.println("\n=== PRUEBA CON INTEGER-STRING ===");
+        Diccionario2<Integer, String> dic2 = new Diccionario2<>();
+        
+        dic2.agregar(101, "Laptop");
+        dic2.agregar(102, "Mouse");
+        dic2.agregar(103, "Teclado");
+        dic2.mostrar();
+        
+        dic2.editar(102, "Mouse inalámbrico");
+        dic2.eliminar(101);
+        dic2.mostrar();
+        
+        System.out.println("\n=== PRUEBA MIXTA ===");
+        Diccionario2<String, String> dic3 = new Diccionario2<>();
+        dic3.agregar("color", "rojo");
+        dic3.agregar("tamaño", "grande");
+        dic3.mostrar();
+        
+        dic3.editar("color", "azul");
+        dic3.mostrar();
+    }
+}
